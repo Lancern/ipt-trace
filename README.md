@@ -4,6 +4,10 @@ Full-stack implementation of a toy program trace tool using Intel-PT for tracing
 
 > This project is under development.
 
+## Build
+
+Please refer to [docs/Build.md](docs/Build.md) for build instructions.
+
 ## License
 
 This project is open-sourced under [MIT License](./LICENSE).

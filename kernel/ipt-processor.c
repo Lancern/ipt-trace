@@ -18,11 +18,11 @@ void ipt_query_cpu_cap(struct ipt_cpu_cap *cap) {
   unsigned int ecx;
   unsigned int edx;
 
+  memset(cap, 0, sizeof(struct ipt_cpu_cap));
+
   if (!cap) {
     return;
   }
-
-  memset(cap, 0, sizeof(struct ipt_cpu_cap));
 
   if (!ipt_is_cpu_supported()) {
     return;

@@ -59,12 +59,6 @@ static ssize_t ipt_device_write(struct file *filp, const char *buf, size_t len, 
 static long ipt_device_ioctl_cpu_cap(unsigned long arg) {
   struct ipt_cpu_cap cap;
 
-  if (!ipt_is_cpu_supported()) {
-    // Intel PT is not supported by the CPU.
-    put_user(0, (unsigned long *)arg);
-    return 0;
-  }
-
   ipt_query_cpu_cap(&cap);
   copy_to_user((struct ipt_cpu_cap *)arg, &cap, sizeof(cap));
 

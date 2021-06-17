@@ -2,7 +2,7 @@
 
 #include <asm/processor.h>
 
-int ipt_is_cpu_supported(void) {
+static int ipt_is_cpu_supported(void) {
   unsigned int eax;
   unsigned int ebx;
   unsigned int ecx;
@@ -24,22 +24,28 @@ void ipt_query_cpu_cap(struct ipt_cpu_cap *cap) {
 
   memset(cap, 0, sizeof(struct ipt_cpu_cap));
 
+  if (!ipt_is_cpu_supported()) {
+    return;
+  }
+
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_PT_SUPPORT, 1);
+
   cpuid(0x14, &eax, &ebx, &ecx, &edx);
-  cap->cr3_filter_support = ebx & 1;
-  cap->psb_freq_support = (ebx >> 1) & 1;
-  cap->ip_filter_support = (ebx >> 2) & 1;
-  cap->mtc_support = (ebx >> 3) & 1;
-  cap->ptwrite_support = (ebx >> 4) & 1;
-  cap->power_event_trace_support = (ebx >> 5) & 1;
-  cap->topa_output_support = ecx & 1;
-  cap->topa_tables_allow_multiple_output_entries = (ecx >> 1) & 1;
-  cap->single_range_output_support = (ecx >> 2) & 1;
-  cap->trace_transport_system_support = (ecx >> 3) & 1;
-  cap->ip_payloads_are_lip = (ecx >> 31) & 1;
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_CR3_FILTER_SUPPORT, ebx & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_PSB_FREQ_SUPPORT, (ebx >> 1) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_IP_FILTER_SUPPORT, (ebx >> 2) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_MTC_SUPPORT, (ebx >> 3) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_PTWRITE_SUPPORT, (ebx >> 4) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_POWER_EVENT_TRACE_SUPPORT, (ebx >> 5) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_TOPA_OUTPUT_SUPPORT, ecx & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_TOPA_TABLES_ALLOW_MULTIPLE_OUTPUT_ENTRIES, (ecx >> 1) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_SINGLE_RANGE_OUTPUT_SUPPORT, (ecx >> 2) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_TRACE_TRANSPORT_SYSTEM_SUPPORT, (ecx >> 3) & 1);
+  IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_IP_PAYLOADS_ARE_LIP, (ecx >> 31) & 1);
 
   if (eax) {
     cpuid_count(0x14, 0x1, &eax, &ebx, &ecx, &edx);
-    cap->extra_param_valid = 1;
+    IPT_CPU_CAP_FLAG_SET(cap, IPT_CPU_CAP_FLAG_OFFSET_HAS_EXTRA_PARAM, 1);
     cap->num_address_ranges = eax & 0x3;
     cap->supported_mtc_period = eax >> 16;
     cap->supported_cycle_threshold = ebx & 0xffff;

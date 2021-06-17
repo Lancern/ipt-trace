@@ -2,27 +2,30 @@
 #define IPT_PROCESSOR_H
 
 struct ipt_cpu_cap {
-  unsigned int cr3_filter_support: 1;
-  unsigned int psb_freq_support: 1;
-  unsigned int ip_filter_support: 1;
-  unsigned int mtc_support: 1;
-  unsigned int ptwrite_support: 1;
-  unsigned int power_event_trace_support: 1;
-  unsigned int topa_output_support: 1;
-  unsigned int topa_tables_allow_multiple_output_entries: 1;
-  unsigned int single_range_output_support: 1;
-  unsigned int trace_transport_system_support: 1;
-  unsigned int ip_payloads_are_lip: 1;
+  unsigned short flags;
 
-  unsigned int extra_param_valid: 1;
   unsigned short num_address_ranges;
   unsigned short supported_mtc_period;
   unsigned short supported_cycle_threshold;
   unsigned short supported_psb_freq;
 };
 
-/// Test whether the CPU supports Intel PT
-int ipt_is_cpu_supported(void);
+#define IPT_CPU_CAP_FLAG_OFFSET_PT_SUPPORT                                0
+#define IPT_CPU_CAP_FLAG_OFFSET_CR3_FILTER_SUPPORT                        1
+#define IPT_CPU_CAP_FLAG_OFFSET_PSB_FREQ_SUPPORT                          2
+#define IPT_CPU_CAP_FLAG_OFFSET_IP_FILTER_SUPPORT                         3
+#define IPT_CPU_CAP_FLAG_OFFSET_MTC_SUPPORT                               4
+#define IPT_CPU_CAP_FLAG_OFFSET_PTWRITE_SUPPORT                           5
+#define IPT_CPU_CAP_FLAG_OFFSET_POWER_EVENT_TRACE_SUPPORT                 6
+#define IPT_CPU_CAP_FLAG_OFFSET_TOPA_OUTPUT_SUPPORT                       7
+#define IPT_CPU_CAP_FLAG_OFFSET_TOPA_TABLES_ALLOW_MULTIPLE_OUTPUT_ENTRIES 8
+#define IPT_CPU_CAP_FLAG_OFFSET_SINGLE_RANGE_OUTPUT_SUPPORT               9
+#define IPT_CPU_CAP_FLAG_OFFSET_TRACE_TRANSPORT_SYSTEM_SUPPORT            10
+#define IPT_CPU_CAP_FLAG_OFFSET_IP_PAYLOADS_ARE_LIP                       11
+#define IPT_CPU_CAP_FLAG_OFFSET_HAS_EXTRA_PARAM                           12
+
+#define IPT_CPU_CAP_FLAG_SET(cap, offset, value) \
+  (cap)->flags |= (((value) & 1) << (offset))
 
 /// Query the supported Intel PT functionality supported by the CPU
 void ipt_query_cpu_cap(struct ipt_cpu_cap *cap);

@@ -13,7 +13,7 @@ MODULE_VERSION(IPT_VERSION);
 static int __init ipt_init(void) {
   int ret = ipt_device_init();
   if (ret < 0) {
-    pr_alert("Failed to init IPT device file: error code is %d\n", ret);
+    pr_alert("failed to init IPT device\n");
     return ret;
   }
 

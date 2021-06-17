@@ -1,4 +1,4 @@
-ipt-y = ipt-module.o ipt-device.o
+ipt-y = ipt-module.o ipt-device.o ipt-processor.o
 obj-m = ipt.o
 
 all:

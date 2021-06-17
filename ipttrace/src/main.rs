@@ -67,7 +67,7 @@ fn dump_cpu_cap(cap: &IptCpuCap) {
     println!("ToPA Output: {}", support_msg(cap.is_topa_output_supported()));
     println!("ToPA Tables Allow Multiple Output Entries: {}",
         support_msg(cap.topa_tables_allow_multiple_output_entries()));
-    println!("Single-Rance Output: {}", support_msg(cap.is_single_range_output_supported()));
+    println!("Single-Range Output: {}", support_msg(cap.is_single_range_output_supported()));
     println!("Output to Trace Transport Subsystem: {}",
         support_msg(cap.is_trace_transport_system_supported()));
     println!("IP Payloads are LIP: {}", support_msg(cap.is_ip_payloads_lip()));

@@ -38,21 +38,23 @@ static struct file_operations ipt_fileops = {
 
 static int ipt_device_open(struct inode *inode, struct file *filp) {
   // TODO: finish ipt_device_open
-  return -ENOSYS;
+  return 0;
 }
 
 static int ipt_device_release(struct inode *inode, struct file *filp) {
   // TODO: finish ipt_device_release
-  return -ENOSYS;
+  return 0;
 }
 
 static ssize_t ipt_device_read(struct file *filp, char *buf, size_t len, loff_t *off) {
   // TODO: finish ipt_device_read
+  pr_alert("ipt_device_read has not been implemented");
   return -ENOSYS;
 }
 
 static ssize_t ipt_device_write(struct file *filp, const char *buf, size_t len, loff_t *off) {
   // TODO: finish ipt_device_write
+  pr_alert("ipt_device_write has not been implemented");
   return -ENOSYS;
 }
 

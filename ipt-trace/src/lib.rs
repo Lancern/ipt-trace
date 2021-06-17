@@ -1,7 +1,7 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+extern crate libc;
+
+pub mod cap;
+pub mod device_file;
+
+pub use cap::IptCpuCap;
+pub use device_file::IptDeviceFile;
